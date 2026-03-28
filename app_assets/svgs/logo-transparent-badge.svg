@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <circle cx="512" cy="512" r="450" fill="#FE2C55" />
+  <circle cx="512" cy="512" r="380" fill="#0A0A0A" />
+  <text x="512" y="680" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="500" text-anchor="middle" fill="#FFFFFF">HF</text>
+</svg>

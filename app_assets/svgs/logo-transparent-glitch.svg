@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <text x="512" y="680" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="500" text-anchor="middle" fill="#25F4EE" dx="-15" dy="10">HF</text>
+  <text x="512" y="680" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="500" text-anchor="middle" fill="#FE2C55" dx="15" dy="-10">HF</text>
+  <text x="512" y="680" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="500" text-anchor="middle" fill="#161616">HF</text>
+  <text x="512" y="680" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="500" text-anchor="middle" fill="none" stroke="#FFFFFF" stroke-width="8">HF</text>
+</svg>
