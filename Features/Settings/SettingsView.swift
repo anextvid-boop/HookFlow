@@ -53,9 +53,9 @@ public struct SettingsView: View {
                                 .padding(.leading, DesignTokens.Spacing.sm)
                             
                             VStack(spacing: 0) {
-                                legalRow(title: "Terms of Use (EULA)", url: "https://hookflow.app/terms")
+                                legalRow(title: "Terms of Use (EULA)", url: "https://anextvid-boop.github.io/HookFlow-Webpage/terms.html")
                                 Divider().background(Color.white.opacity(0.1))
-                                legalRow(title: "Privacy Policy", url: "https://hookflow.app/privacy")
+                                legalRow(title: "Privacy Policy", url: "https://anextvid-boop.github.io/HookFlow-Webpage/privacy.html")
                             }
                             .hfGlassmorphic(padding: 0, cornerRadius: DesignTokens.Radius.md)
                         }

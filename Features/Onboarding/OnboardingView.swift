@@ -285,7 +285,7 @@ public struct OnboardingView: View {
             Spacer()
             
             Button(action: requestPermissions) {
-                Text("Grant Access")
+                Text("Continue")
                     .font(HFTypography.callout())
                     .foregroundColor(.white)
                     .padding(.vertical, DesignTokens.Spacing.md)

@@ -166,7 +166,7 @@ public struct PaywallView: View {
                 
                 // Footers
                 HStack(spacing: DesignTokens.Spacing.xl) {
-                    Link("Terms of Use", destination: URL(string: "https://hookflow.app/terms")!)
+                    Link("Terms of Use", destination: URL(string: "https://anextvid-boop.github.io/HookFlow-Webpage/terms.html")!)
                         .font(.system(size: 10))
                         .foregroundColor(.hfTextTertiary)
                     
@@ -193,7 +193,7 @@ public struct PaywallView: View {
                     .font(.system(size: 10))
                     .foregroundColor(.hfTextTertiary)
                     
-                    Link("Privacy Policy", destination: URL(string: "https://hookflow.app/privacy")!)
+                    Link("Privacy Policy", destination: URL(string: "https://anextvid-boop.github.io/HookFlow-Webpage/privacy.html")!)
                         .font(.system(size: 10))
                         .foregroundColor(.hfTextTertiary)
                 }
