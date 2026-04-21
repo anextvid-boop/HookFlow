@@ -3,11 +3,13 @@ import SwiftUI
 /// App Store Compliance hub. Crucial location for Restore Purchases, EULA, and Subscription Toggling.
 public struct SettingsView: View {
     @Environment(AppRouter.self) private var router
+    @EnvironmentObject private var profileManager: ProfileManager
     let subscriptionService = SubscriptionService.shared
     
     // UI state to prevent duplicate taps
     @State private var isRestoring = false
     @State private var restoreMessage: String? = nil
+    @State private var showDeleteConfirmation = false
     
     public init() {}
     
@@ -59,6 +61,27 @@ public struct SettingsView: View {
                             }
                             .hfGlassmorphic(padding: 0, cornerRadius: DesignTokens.Radius.md)
                         }
+                        
+                        // Account Management
+                        VStack(alignment: .leading, spacing: DesignTokens.Spacing.sm) {
+                            Text("ACCOUNT MANAGEMENT")
+                                .font(HFTypography.caption())
+                                .foregroundColor(.hfTextTertiary)
+                                .padding(.leading, DesignTokens.Spacing.sm)
+                            
+                            VStack(spacing: 0) {
+                                Button(action: { showDeleteConfirmation = true }) {
+                                    HStack {
+                                        Text("Delete Profile & Data").font(HFTypography.body()).foregroundColor(.red)
+                                        Spacer()
+                                        Image(systemName: "trash").foregroundColor(.red)
+                                    }
+                                    .padding(DesignTokens.Spacing.md)
+                                    .contentShape(Rectangle())
+                                }
+                            }
+                            .hfGlassmorphic(padding: 0, cornerRadius: DesignTokens.Radius.md)
+                        }
                     }
                     .padding(DesignTokens.Spacing.md)
                 }
@@ -72,6 +95,17 @@ public struct SettingsView: View {
                             .foregroundColor(.hfTextSecondary)
                     }
                 }
+            }
+            .alert("Delete All Data?", isPresented: $showDeleteConfirmation) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) {
+                    profileManager.wipeProfile()
+                    UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+                    router.dismissSheet()
+                    router.popToRoot()
+                }
+            } message: {
+                Text("This action cannot be undone. All your custom prompts and profile data will be permanently deleted from this device.")
             }
         }
     }

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>HookFlow needs camera access so you can record videos of yourself reading the teleprompter directly within the app.</string>
+	<string>HookFlow requires camera access to digitally capture your face so you can record selfie-style videos while reading the teleprompter scripts (e.g., creating a promotional TikTok video).</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>HookFlow needs microphone access to record your voice while you speak to the camera, which is required to generate the automatic AI captions for your video.</string>
+	<string>HookFlow requires microphone access to record your voice audio while recording video, which is specifically used to generate the automatic AI captions on your final export (e.g., so viewers can read what you are saying).</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Save your finalized masterpieces straight to your Camera Roll.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

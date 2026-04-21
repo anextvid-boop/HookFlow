@@ -80,16 +80,6 @@ public struct PaywallView: View {
                         if subscriptionService.availablePackages.isEmpty {
                             // High Fidelity Mock State so UI never hangs in Simulator 
                             PricingCard(
-                                title: "Creator — Yearly",
-                                priceWithDuration: "£89.99 / year",
-                                subtitle: "Most popular. Billed annually.",
-                                isAccent: selectedPackageId == "mock_creator_yearly",
-                                showBestValue: true,
-                                saveBadge: "SAVE 40%"
-                            )
-                            .onTapGesture { selectedPackageId = "mock_creator_yearly" }
-                            
-                            PricingCard(
                                 title: "Creator — Monthly",
                                 priceWithDuration: "£8.99 / month",
                                 subtitle: "Flexible monthly billing.",
@@ -100,24 +90,39 @@ public struct PaywallView: View {
                             .onTapGesture { selectedPackageId = "mock_creator_monthly" }
                             
                             PricingCard(
-                                title: "Pro Seller — Yearly",
-                                priceWithDuration: "£149.99 / year",
-                                subtitle: "Captions + All Features",
-                                isAccent: selectedPackageId == "mock_pro_seller",
+                                title: "Creator — Yearly",
+                                priceWithDuration: "£49.99 / year",
+                                subtitle: "Most popular. Billed annually.",
+                                isAccent: selectedPackageId == "mock_creator_yearly",
+                                showBestValue: true,
+                                saveBadge: "SAVE 50%"
+                            )
+                            .onTapGesture { selectedPackageId = "mock_creator_yearly" }
+                            
+                            PricingCard(
+                                title: "Creator — Lifetime",
+                                priceWithDuration: "£149.99 / lifetime",
+                                subtitle: "One-time payment. Yours forever.",
+                                isAccent: selectedPackageId == "mock_creator_lifetime",
                                 showBestValue: false,
                                 saveBadge: nil
                             )
-                            .onTapGesture { selectedPackageId = "mock_pro_seller" }
+                            .onTapGesture { selectedPackageId = "mock_creator_lifetime" }
                         } else {
                             // Real RevenueCat State
                             ForEach(subscriptionService.availablePackages, id: \.identifier) { package in
+                                let isAnnual = package.packageType == .annual
+                                let isLifetime = package.packageType == .lifetime
+                                let durationString = isLifetime ? "lifetime" : (isAnnual ? "year" : "month")
+                                let subtitleString = isLifetime ? "One-time payment. Yours forever." : (isAnnual ? "Most popular. Billed annually." : "Flexible billing. Cancel anytime.")
+                                
                                 PricingCard(
                                     title: package.storeProduct.localizedTitle,
-                                    priceWithDuration: "\(package.localizedPriceString) / \(package.packageType == .annual ? "year" : "month")",
-                                    subtitle: package.packageType == .annual ? "Most popular. Billed annually." : "Flexible billing. Cancel anytime.",
+                                    priceWithDuration: "\(package.localizedPriceString) / \(durationString)",
+                                    subtitle: subtitleString,
                                     isAccent: selectedPackageId == package.identifier,
-                                    showBestValue: package.packageType == .annual,
-                                    saveBadge: package.packageType == .annual ? "BEST VALUE" : nil
+                                    showBestValue: isAnnual,
+                                    saveBadge: isAnnual ? "BEST VALUE" : nil
                                 )
                                 .onTapGesture {
                                     selectedPackageId = package.identifier
@@ -139,13 +144,15 @@ public struct PaywallView: View {
                 
                 // Real Purchase Trigger - Rigidly pinned at bottom
                 VStack(spacing: 6) {
+                    let isSelectingLifetime = selectedPackageId == "mock_creator_lifetime" || subscriptionService.availablePackages.first(where: { $0.identifier == selectedPackageId })?.packageType == .lifetime
+                    
                     Button(action: executePurchase) {
                         HStack {
                             if isPurchasing {
                                 ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .black))
                                     .padding(.trailing, 4)
                             }
-                            Text(isPurchasing ? "Processing..." : "Start 7-Day Free Trial")
+                            Text(isPurchasing ? "Processing..." : (isSelectingLifetime ? "Unlock Forever" : "Start 7-Day Free Trial"))
                         }
                         .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.black)
@@ -157,7 +164,7 @@ public struct PaywallView: View {
                     .buttonStyle(HFScaleButtonStyle())
                     .disabled(selectedPackageId == nil || isPurchasing)
                     
-                    Text("7 days free, then auto-renews at listed tier price.")
+                    Text(isSelectingLifetime ? "One-time payment unlocks all features permanently." : "7 days free, then auto-renews according to the selected plan.")
                         .font(.system(size: 10))
                         .foregroundColor(.hfTextSecondary)
                 }
