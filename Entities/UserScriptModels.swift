@@ -7,7 +7,7 @@ public final class UserScriptGroup {
     public var name: String
     public var creationDate: Date
     
-    @Relationship(deleteRule: .cascade)
+    @Relationship(deleteRule: .cascade, inverse: \UserScript.group)
     public var scripts: [UserScript]
     
     public init(id: UUID = UUID(), name: String) {

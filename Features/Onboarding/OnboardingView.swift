@@ -301,29 +301,19 @@ public struct OnboardingView: View {
     }
     
     private func requestPermissions() {
-        let videoStatus = AVCaptureDevice.authorizationStatus(for: .video)
-        let audioStatus = AVCaptureDevice.authorizationStatus(for: .audio)
-        
-        if videoStatus == .denied || audioStatus == .denied {
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url)
-            }
-            return
-        }
-        
         Task.detached {
-            let videoWait = await AVCaptureDevice.requestAccess(for: .video)
-            let audioWait = await AVCaptureDevice.requestAccess(for: .audio)
+            // Request permissions but do not gate the user based on their response.
+            // This guarantees App Store Reviewers and users can bypass to the dashboard cleanly.
+            _ = await AVCaptureDevice.requestAccess(for: .video)
+            _ = await AVCaptureDevice.requestAccess(for: .audio)
             
-            if videoWait && audioWait {
-                await MainActor.run {
-                    let generator = UINotificationFeedbackGenerator()
-                    generator.notificationOccurred(.success)
-                    withAnimation {
-                        // High-Conversion direct routing path exactly as ordered
-                        router.activeSheet = .paywall
-                        hasCompletedOnboarding = true
-                    }
+            await MainActor.run {
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+                withAnimation {
+                    // High-Conversion direct routing path exactly as ordered
+                    router.activeSheet = .paywall
+                    hasCompletedOnboarding = true
                 }
             }
         }
